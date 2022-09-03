@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === "production") {
       //Set static folder
       app.use(express.static("./../chat-client/build"));
       app.get("*", (req, res) => {
-            res.sendFile(path.resolve(__dirname, "insta", "build", "index.html"));
+            res.sendFile(path.resolve(__dirname, "chat-client", "build", "index.html"));
       });
 }
 
