@@ -9,13 +9,18 @@ import Store from "connect-mongodb-session"
 import authRouter from "./routes/auth.routes.js"
 import chatRouter from "./routes/chat.routes.js"
 import messageRouter from "./routes/message.routes.js"
-
+import path from "path";
 import http from "http"
 import cors from "cors"
+import { fileURLToPath } from 'url';
 const app = express()
 const port = process.env.PORT || 3001
 const MyStore = Store(session)
 const server = http.createServer(app)
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+const dir =path.join(__dirname,"../")
 const io = new Server(server, ({
       cors: {
             origin: "http://localhost:3000"
@@ -48,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
       //Set static folder
       app.use(express.static("./../chat-client/build"));
       app.get("*", (req, res) => {
-            res.sendFile(path.resolve(__dirname, "chat-client", "build", "index.html"));
+            res.sendFile(path.resolve(dir, "chat-client", "build", "index.html"));
       });
 }
 
