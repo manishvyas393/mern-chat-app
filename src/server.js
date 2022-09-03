@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 const dir = path.join(__dirname, "../")
-console.log(path.resolve(dir, "chat-client", "build", "index.html"))
+console.log(express.static(dir))
 const io = new Server(server, ({
       cors: {
             origin: "http://localhost:3000"
@@ -52,8 +52,7 @@ app.use("/api/chat", chatRouter)
 app.use("/api/messages", messageRouter)
 if (process.env.NODE_ENV === "production") {
       //Set static folder
-      console.log(express.static("./../chat-client/build"))
-      app.use(express.static("./../chat-client/build"));
+      app.use(express.static("../chat-client/build"));
       app.get("*", (req, res) => {
             res.sendFile(path.resolve(dir, "chat-client", "build", "index.html"));
       });
