@@ -9,6 +9,7 @@ import Store from "connect-mongodb-session"
 import authRouter from "./routes/auth.routes.js"
 import chatRouter from "./routes/chat.routes.js"
 import messageRouter from "./routes/message.routes.js"
+
 import http from "http"
 import cors from "cors"
 const app = express()
@@ -43,6 +44,13 @@ app.use(session({
 app.use("/api/auth", authRouter)
 app.use("/api/chat", chatRouter)
 app.use("/api/messages", messageRouter)
+if (process.env.NODE_ENV === "production") {
+      //Set static folder
+      app.use(express.static("./../chat-client/build"));
+      app.get("*", (req, res) => {
+            res.sendFile(path.resolve(__dirname, "insta", "build", "index.html"));
+      });
+}
 
 io.on("connection", (socket) => {
       socket.on("join", (username, chatId, cb) => {
